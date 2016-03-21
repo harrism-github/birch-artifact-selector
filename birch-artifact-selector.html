@@ -75,7 +75,10 @@ Example:
       <h4 header>[[selectorTitle]]</h4>
       <div class='wrap layout horizontal justified'>
         <paper-drawer-panel id='drawer' responsive-width='979px' drawer-width='200px' edge-swipe-sensitivity='50'>
-          <birch-gallery-view-selector albums='[[_albums]]' view='{{_view}}' read-only drawer></birch-gallery-view-selector>
+          <birch-gallery-view-selector read-only drawer hide-counts
+            count='[[_artifacts.length]]' 
+            albums='[[_albums]]' 
+            view='{{_view}}'></birch-gallery-view-selector>
           <birch-artifact-grid main id='grid'
             album='[[_album]]'
             artifacts='[[_artifacts]]'
