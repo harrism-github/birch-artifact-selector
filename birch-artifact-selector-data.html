@@ -1,0 +1,128 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-ajax/iron-ajax.html">
+<link rel="import" href="../fs-behavior/fs-behavior.html">
+
+<dom-module id="birch-aritfact-selector-data">
+  <template>
+  <iron-ajax
+     id='req'
+     loading='{{loading}}'
+     handle-as="json"
+     headers='[[_headers]]'
+     on-response="_handleResponse"></iron-ajax>
+  <iron-ajax auto
+     url='[[_base]]/artifactmanager/patrons/[[cisId]]/albums'
+     loading='{{loading}}'
+     handle-as="json"
+     headers='[[_headers]]'
+     on-response="_handleAlbums"></iron-ajax>
+  </template>
+  <script>
+  (function() {
+    var _cache = {};
+    Polymer({
+      is: 'birch-aritfact-selector-data',
+      behaviors: [
+        FSBehavior
+      ],
+      properties: {
+        _base: {
+          type: String,
+          value: function() {
+            return ~location.origin.indexOf('localhost') ? 'https://integration.familysearch.org' : '';
+          }
+        },
+        _rawData: {
+          type: Object
+        },
+        album: {
+          type: Object,
+          readOnly: true,
+          notify: true
+        },
+        albums: {
+          type: Array,
+          readOnly: true,
+          notify: true
+        },
+        artifacts: {
+          type: Array,
+          readOnly: true,
+          notify: true
+        },
+        view: {
+          type: String,
+          value: 'my-memories',
+        },
+        cisId: {
+          type: String
+        },
+        loading: {
+          type: Boolean,
+          notify: true
+        }
+      },
+      observers: [
+        '_fetchArtifact(view, cisId)'
+      ],
+      _fetchArtifact: function(view, cisId) {
+        if (!cisId) return;
+
+        if (_cache[view]) {
+          this._setArtifacts(_cache[view].artifacts);
+          this._setAlbum(_cache[view].album);
+          return;
+        }
+
+        this._setArtifacts([]);
+        this._setAlbum({});
+        var url = this._base;
+        if (parseInt(view)) {
+          url += '/artifactmanager/albums/' + view + '/artifacts';
+        } else if(view === 'my-favorites') {
+          url += '/artifactmanager/patrons/' + this.cisId + '/favorites/artifacts';
+        } else {
+          url += '/artifactmanager/patrons/' + this.cisId + '/artifacts';
+        }
+
+        this.$.req.url = url;
+        if (view === 'my-memories' || view === 'my-archive') {
+          this.$.req.params = {
+            includePortraits: false,
+            artifactArchivedState: (view === 'my-memories' ? 'NON_ARCHIVED' : 'ARCHIVED')
+          }
+        }
+
+        this.$.req.generateRequest();
+      },
+      _handleAlbums: function(e) {
+        var albums = e.detail.response.album
+        albums = albums.filter(function(album) {
+          return album.artifactCount > 0;
+        });
+        this._setAlbums(albums);
+      },
+      _handleResponse: function() {
+        if (!this.$.req.lastResponse) return;
+        var data = this.$.req.lastResponse;
+        var artifacts = [];
+        if (Array.isArray(data.artifact)) {
+          artifacts = data.artifact;
+        } else if (data.artifactList && Array.isArray(data.artifactList.artifact)) {
+          this._setAlbum(data.album);
+          artifacts = data.artifactList.artifact;
+        }
+
+        // Set Artifacts and Update the View
+        this._setArtifacts(artifacts);
+
+        // Cache the data for later use
+        _cache[this.view] = {
+          artifacts: artifacts,
+          album: data.album ? data.album : {}
+        };
+      }
+    });
+  })();
+  </script>
+</dom-module>

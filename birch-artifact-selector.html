@@ -1,0 +1,157 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../cedar-dialog/cedar-dialog.html">
+<link rel="import" href="../wc-i18n/wc-i18n.html">
+<link rel="import" href="../fs-button/fs-button.html">
+<link rel="import" href="../layout/layout.html">
+<link rel="import" href="../paper-drawer-panel/paper-drawer-panel.html">
+<link rel="import" href="../birch-gallery-view-selector/birch-gallery-view-selector.html">
+<link rel="import" href="../birch-artifact-grid/birch-artifact-grid.html">
+<link rel="import" href="./birch-artifact-selector-data.html">
+
+<!--
+An element providing a solution to no problem in particular.
+
+Example:
+
+    <birch-artifact-selector></birch-artifact-selector>
+
+Example:
+
+    <birch-artifact-selector>
+      <h2>Hello birch-artifact-selector</h2>
+    </birch-artifact-selector>
+
+@demo demo/index.html
+@hero hero.svg
+-->
+
+<dom-module id="birch-artifact-selector">
+  <template>
+    <style>
+      cedar-dialog {
+        --cedar-dialog: {
+          width: calc(100vw - 30px);
+          max-width: 1000px;
+          height: 600px;
+        };
+      }
+      birch-gallery-view-selector {
+        min-width: 200px;
+      }
+      .grid-wrapper {
+        width: calc(100% - 201px);
+        height:100%;
+      }
+      .wrap {
+        height: 100%;
+        width: 100%;
+        position: relative;
+      }
+      .selected-count-string {
+        font-size: 16px;
+      }
+      .selected-count {
+        margin-right: 5px;
+      }
+    </style>
+    <birch-aritfact-selector-data cis-id='[[cisId]]' 
+      view='[[_view]]' 
+      artifacts='{{_artifacts}}' 
+      album='{{_album}}' 
+      albums='{{_albums}}' 
+      loading='{{loading}}'></birch-aritfact-selector-data>
+    <wc-i18n-src domain='birch-artifact-selector' locale-dir='[[localeDir()]]'></wc-i18n-src>
+    <cedar-dialog id='modal' full-width on-iron-overlay-closed='_resetSelector'>
+      <h4 header>[[selectorTitle]]</h4>
+      <div class='wrap layout horizontal justified'>
+        <paper-drawer-panel id='drawer' responsive-width='979px' drawer-width='200px' edge-swipe-sensitivity='50'>
+          <birch-gallery-view-selector albums='[[_albums]]' view='{{_view}}' read-only drawer></birch-gallery-view-selector>
+          <birch-artifact-grid main id='grid'
+            album='[[_album]]'
+            artifacts='[[_artifacts]]'
+            loading='[[loading]]'
+            selected-items='{{selectedItems}}' read-only></birch-artifact-grid>
+          </paper-drawer-panel>
+      </div>
+      <div footer class='layout horizontal justified'>
+        <div>
+          <button is='fs-button' option='recommended' dialog-confirm on-tap='_notifyAttach'>
+            <wc-i18n key='birch-artifact-selector.attach_photos'></wc-i18n>
+          </button>
+          <button is='fs-button' option='minor' dialog-dismiss>
+            <wc-i18n key='birch-artifact-selector.cancel'></wc-i18n>
+          </button>
+        </div>
+        <div class="layout horizontal center center-justified selected-count-string">
+          <span class='selected-count'>[[selectedItems.length]]</span>
+          <wc-i18n key='birch-artifact-selector.selected'></wc-i18n>
+        </div>
+      </div>
+    </cedar-dialog>
+  </template>
+  <script>
+    Polymer({
+      is: 'birch-artifact-selector',
+      behaviors: [
+        WCI18nBehavior
+      ],
+      properties: {
+        // USER INPUTS
+        cisId: {
+          type: String
+        },
+        selectorTitle: {
+          type: String
+        },
+
+        // EXPORTED PROPS
+        selectedItems: {
+          type: Array,
+          notify: true
+        },
+
+        // PRIVATE PROPS
+        _loading: {
+          type: Boolean,
+          value: false
+        },
+        _artifacts: {
+          type: Array,
+          value: function() { return []; }
+        },
+        _albums: {
+          type: Array,
+          value: function() { return []; }
+        },
+        _view: {
+          type: String,
+          value: 'my-memories'
+        },
+      },
+      _resetSelector: function() {
+        this._view = 'my-memories';
+        this.async(function() {
+          this.$.grid.deselectAll();
+        }.bind(this));
+      },
+      _notifyAttach: function() {
+        this.fire('birch-artifact-selector-attach-selected', {
+          items: this.selectedItems
+        });
+      },
+      open: function() {
+        this.$.modal.open();
+      }
+    });
+  </script>
+</dom-module>
