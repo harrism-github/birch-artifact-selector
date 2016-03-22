@@ -27,7 +27,9 @@
     "wc-i18n": "jshcrowthe/wc-i18n#^1.1.0",
     "iron-ajax": "PolymerElements/iron-ajax#^1.2.0",
     "paper-drawer-panel": "PolymerElements/paper-drawer-panel#1.0.9",
-    "oak-ajax-behavior": "FamilySearchElements/oak-ajax-behavior"
+    "oak-ajax-behavior": "FamilySearchElements/oak-ajax-behavior",
+    "birch-gallery-top-bar": "FamilySearchElements/birch-gallery-top-bar",
+    "iron-media-query": "PolymerElements/iron-media-query#^1.0.8"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0"
