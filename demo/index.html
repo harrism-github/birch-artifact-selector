@@ -22,13 +22,31 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <body unresolved>
 
     <p>An example of <code>&lt;birch-artifact-selector&gt;</code>:</p>
+    
+    <template id='app' is='dom-bind'>
+      <label>Insert sessionId:</label><input id='input' type="text" on-input='_handleInput'>
+      <script>
+      var selector = document.querySelector('birch-artifact-selector');
+      (function() {
+        var app = document.querySelector('#app');
+        var _cache = sessionStorage.getItem('sessionId-cache');
+        if (_cache) {
+          selector.sessionId = app.$.input.value = _cache
+        }
+
+        app._handleInput = function() {
+          selector.sessionId = app.$.input.value;
+          sessionStorage.setItem('sessionId-cache', selector.sessionId);
+        };
+      })()
+      </script>
+    </template>
 
     <p>Click Here: <button id="openbtn">Open Selector</button></p>
 
     <birch-artifact-selector cis-id='cis.user.MMMM-DT6K' selector-title='Select Photos!'></birch-artifact-selector>
 
     <script>
-      var selector = document.querySelector('birch-artifact-selector');
       
       var button = document.querySelector('#openbtn');
       button.addEventListener('click', function() {

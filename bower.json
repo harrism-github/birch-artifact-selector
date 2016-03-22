@@ -20,21 +20,20 @@
   "dependencies": {
     "polymer": "Polymer/polymer#^1.2.0",
     "fs-button": "jshcrowthe/fs-button",
-    "layout": "Polymer/layout",
+    "iron-flex-layout": "PolymerElements/iron-flex-layout",
     "birch-gallery-view-selector": "FamilySearchElements/birch-gallery-view-selector",
     "birch-artifact-grid": "FamilySearchElements/birch-artifact-grid",
     "cedar-dialog": "FamilySearchElements/cedar-dialog",
     "wc-i18n": "jshcrowthe/wc-i18n#^1.1.0",
     "iron-ajax": "PolymerElements/iron-ajax#^1.2.0",
-    "fs-behavior": "jshcrowthe/fs-behavior",
-    "paper-drawer-panel": "PolymerElements/paper-drawer-panel#^1.0.9"
+    "paper-drawer-panel": "PolymerElements/paper-drawer-panel#1.0.9",
+    "oak-ajax-behavior": "FamilySearchElements/oak-ajax-behavior"
   },
   "devDependencies": {
-    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
-    "web-component-tester": "^4.0.0"
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0"
   },
   "resolutions": {
-    "polymer": "^1.3.1",
+    "polymer": "~1.2.0",
     "iron-ajax": "^1.2.0"
   }
 }

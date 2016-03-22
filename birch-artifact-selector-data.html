@@ -1,6 +1,6 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../iron-ajax/iron-ajax.html">
-<link rel="import" href="../fs-behavior/fs-behavior.html">
+<link rel="import" href="../oak-ajax-behavior/oak-ajax-behavior.html">
 
 <dom-module id="birch-aritfact-selector-data">
   <template>
@@ -8,13 +8,13 @@
      id='req'
      loading='{{loading}}'
      handle-as="json"
-     headers='[[_headers]]'
+     headers='[[authHeaders]]'
      on-response="_handleResponse"></iron-ajax>
   <iron-ajax auto
-     url='[[_base]]/artifactmanager/patrons/[[cisId]]/albums'
+     url='[[ajaxBase]]/artifactmanager/patrons/[[cisId]]/albums'
      loading='{{loading}}'
      handle-as="json"
-     headers='[[_headers]]'
+     headers='[[authHeaders]]'
      on-response="_handleAlbums"></iron-ajax>
   </template>
   <script>
@@ -23,15 +23,9 @@
     Polymer({
       is: 'birch-aritfact-selector-data',
       behaviors: [
-        FSBehavior
+        OakAJAXBehavior
       ],
       properties: {
-        _base: {
-          type: String,
-          value: function() {
-            return ~location.origin.indexOf('localhost') ? 'https://integration.familysearch.org' : '';
-          }
-        },
         _rawData: {
           type: Object
         },
@@ -65,7 +59,7 @@
       observers: [
         '_fetchArtifact(view, cisId)'
       ],
-      _fetchArtifact: function(view, cisId) {
+      _fetchArtifact: function(view, cisId, headers) {
         if (!cisId) return;
 
         if (_cache[view]) {
@@ -76,7 +70,7 @@
 
         this._setArtifacts([]);
         this._setAlbum({});
-        var url = this._base;
+        var url = this.ajaxBase;
         if (parseInt(view)) {
           url += '/artifactmanager/albums/' + view + '/artifacts';
         } else if(view === 'my-favorites') {

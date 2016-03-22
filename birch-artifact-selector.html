@@ -16,6 +16,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../paper-drawer-panel/paper-drawer-panel.html">
 <link rel="import" href="../birch-gallery-view-selector/birch-gallery-view-selector.html">
 <link rel="import" href="../birch-artifact-grid/birch-artifact-grid.html">
+<link rel="import" href="../oak-ajax-behavior/oak-ajax-behavior.html">
 <link rel="import" href="./birch-artifact-selector-data.html">
 
 <!--
@@ -64,7 +65,8 @@ Example:
         margin-right: 5px;
       }
     </style>
-    <birch-aritfact-selector-data cis-id='[[cisId]]' 
+    <birch-aritfact-selector-data
+      cis-id='[[cisId]]' 
       view='[[_view]]' 
       artifacts='{{_artifacts}}' 
       album='{{_album}}' 
@@ -106,7 +108,8 @@ Example:
     Polymer({
       is: 'birch-artifact-selector',
       behaviors: [
-        WCI18nBehavior
+        WCI18nBehavior,
+        OakAJAXBehavior
       ],
       properties: {
         // USER INPUTS
@@ -143,6 +146,7 @@ Example:
       },
       _resetSelector: function() {
         this._view = 'my-memories';
+        this.updateStyles();
         this.async(function() {
           this.$.grid.deselectAll();
         }.bind(this));
