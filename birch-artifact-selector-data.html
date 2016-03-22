@@ -19,6 +19,47 @@
   </template>
   <script>
   (function() {
+
+    /**
+     * FILTER LOGIC
+     */
+    function photoFilter(artifact) {
+      if (artifact && Array.isArray(artifact.contentCategories)) return !!~artifact.contentCategories.indexOf('PHOTO');
+      return false;
+    }
+    function storiesFilter(artifact) {
+      if (artifact && Array.isArray(artifact.contentCategories)) 
+        return (~artifact.contentCategories.indexOf('STORY') || 
+                ~artifact.contentCategories.indexOf('OBITUARY')) && 
+               artifact.category !== 'AUDIO';
+      return false;
+    }
+    function documentsFilter(artifact) {
+      if (artifact && Array.isArray(artifact.contentCategories)) return !!~artifact.contentCategories.indexOf('DOCUMENT');
+      return false;
+    }
+    function audioFilter(artifact) {
+      if (artifact && artifact.category) return artifact.category === 'AUDIO';
+      return false;
+    }
+    function categoryFilter(type) {
+      return {
+        photos: photoFilter,
+        stories: storiesFilter,
+        documents: documentsFilter,
+        audio: audioFilter
+      }[type] || function() { return true; }
+    }
+    function searchFilter(val) {
+      return function(artifact) {
+        if (!val) return true;
+        val = val.toLowerCase();
+        return (artifact.originalFilename    && ~artifact.originalFilename.toLowerCase().indexOf(val))    ||
+               (artifact.title       && ~artifact.title.toLowerCase().indexOf(val))       ||
+               (artifact.description && ~artifact.description.toLowerCase().indexOf(val));
+      };
+    }
+
     var _cache = {};
     Polymer({
       is: 'birch-aritfact-selector-data',
@@ -28,6 +69,18 @@
       properties: {
         _rawData: {
           type: Object
+        },
+        artifactCategory: {
+          type: String,
+          value: 'any'
+        },
+        filterVal: {
+          type: String,
+          value: 'any'
+        },
+        searchVal: {
+          type: String,
+          value: ''
         },
         album: {
           type: Object,
@@ -54,16 +107,21 @@
         loading: {
           type: Boolean,
           notify: true
+        },
+        open: {
+          type: Boolean,
+          value: false
         }
       },
       observers: [
-        '_fetchArtifact(view, cisId)'
+        '_fetchArtifact(view, cisId, open)',
+        '_filterArtifacts(artifactCategory, filterVal, searchVal)'
       ],
-      _fetchArtifact: function(view, cisId, headers) {
-        if (!cisId) return;
+      _fetchArtifact: function(view, cisId, open) {
+        if (!cisId || !open) return;
 
         if (_cache[view]) {
-          this._setArtifacts(_cache[view].artifacts);
+          this._setArtifacts(this._processArtifacts(_cache[view].artifacts));
           this._setAlbum(_cache[view].album);
           return;
         }
@@ -89,6 +147,10 @@
 
         this.$.req.generateRequest();
       },
+      _filterArtifacts: function(category, filter, search) {
+        if (!_cache[this.view] || !Array.isArray(_cache[this.view].artifacts)) return;
+        this._setArtifacts(this._processArtifacts(_cache[this.view].artifacts));
+      },
       _handleAlbums: function(e) {
         var albums = e.detail.response.album
         albums = albums.filter(function(album) {
@@ -108,13 +170,24 @@
         }
 
         // Set Artifacts and Update the View
-        this._setArtifacts(artifacts);
+        this._setArtifacts(this._processArtifacts(artifacts));
 
         // Cache the data for later use
         _cache[this.view] = {
           artifacts: artifacts,
           album: data.album ? data.album : {}
         };
+      },
+      _processArtifacts: function(artifacts) {
+        if (this.searchVal) {
+          artifacts = artifacts.filter(searchFilter(this.searchVal));
+        }
+
+        if (this.artifactCategory || this.filterVal) {
+          artifacts = artifacts.filter(categoryFilter(this.artifactCategory || this.filterVal));
+        }
+
+        return artifacts;
       }
     });
   })();

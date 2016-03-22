@@ -89,14 +89,16 @@ Example:
     </style>
     <iron-media-query query="(max-width: 979px)" query-matches="{{_mobile}}"></iron-media-query>
     <birch-aritfact-selector-data
+      open='[[_open]]'
       cis-id='[[cisId]]' 
       view='[[_view]]' 
+      artifact-category='[[artifactCategory]]'
       artifacts='{{_artifacts}}' 
       album='{{_album}}' 
       albums='{{_albums}}' 
       loading='{{loading}}'></birch-aritfact-selector-data>
     <wc-i18n-src domain='birch-artifact-selector' locale-dir='[[localeDir()]]' locale-strings='{{_i18n}}'></wc-i18n-src>
-    <cedar-dialog id='modal' full-width on-iron-overlay-closed='_resetSelector'>
+    <cedar-dialog id='modal' full-width on-iron-overlay-closed='_resetSelector' >
       <h4 header>[[selectorTitle]]</h4>
       <div class='wrap layout horizontal justified'>
         <paper-drawer-panel id='drawer' responsive-width='979px' drawer-width='200px' edge-swipe-sensitivity='50'>
@@ -106,7 +108,7 @@ Example:
             albums='[[_albums]]' 
             view='{{_view}}'></birch-gallery-view-selector>
           <div main>
-            <birch-gallery-top-bar>
+            <birch-gallery-top-bar no-filter>
               <div class='layout horizontal center' mobile-header paper-drawer-toggle>
                 <i class="mobile-drawer-icon" paper-drawer-toggle></i>
                 <span class='current-view' paper-drawer-toggle>[[_computeViewString(_view, _i18n.*)]]</span>
@@ -151,6 +153,10 @@ Example:
         selectorTitle: {
           type: String
         },
+        artifactCategory: {
+          type: String,
+          value: 'any'
+        },
 
         // EXPORTED PROPS
         selectedItems: {
@@ -169,6 +175,10 @@ Example:
         _mobile: {
           type: Boolean,
           observer: '_applyMobileClass'
+        },
+        _open: {
+          type: Boolean,
+          value: false
         }
       },
       /**
@@ -201,6 +211,7 @@ Example:
       _resetSelector: function() {
         this.$.grid.deselectAll();
         this._view = 'my-memories';
+        this._open = false;
       },
       _notifyAttach: function() {
         this.fire('birch-artifact-selector-attach-selected', {
@@ -208,6 +219,7 @@ Example:
         });
       },
       open: function() {
+        this._open = true;
         this.$.modal.open();
       },
       closeDrawer: function() {

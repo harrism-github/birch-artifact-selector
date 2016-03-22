@@ -24,7 +24,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <p>An example of <code>&lt;birch-artifact-selector&gt;</code>:</p>
     
     <template id='app' is='dom-bind'>
-      <label>Insert sessionId:</label><input id='input' type="text" on-input='_handleInput'>
+      <label>Insert integration sessionId:</label><input id='input' type="text" on-input='_handleInput'>
       <script>
       var selector = document.querySelector('birch-artifact-selector');
       (function() {
@@ -42,14 +42,33 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </script>
     </template>
 
-    <p>Click Here: <button id="openbtn">Open Selector</button></p>
+    <p>Click Here: <button id="openPhotos">Open Photos</button></p>
+    <p>Click Here: <button id="openStories">Open Stories</button></p>
+    <p>Click Here: <button id="openDocuments">Open Documents</button></p>
+    <p>Click Here: <button id="openAudio">Open Audio</button></p>
 
     <birch-artifact-selector cis-id='cis.user.MMMM-DT6K' selector-title='Select Photos!'></birch-artifact-selector>
 
     <script>
       
-      var button = document.querySelector('#openbtn');
-      button.addEventListener('click', function() {
+      var photoButton = document.querySelector('#openPhotos');
+      var storyButton = document.querySelector('#openStories');
+      var docButton = document.querySelector('#openDocuments');
+      var audioButton = document.querySelector('#openAudio');
+      photoButton.addEventListener('click', function() {
+        selector.artifactCategory = 'photos'
+        selector.open();
+      });
+      storyButton.addEventListener('click', function() {
+        selector.artifactCategory = 'stories'
+        selector.open();
+      });
+      docButton.addEventListener('click', function() {
+        selector.artifactCategory = 'document'
+        selector.open();
+      });
+      audioButton.addEventListener('click', function() {
+        selector.artifactCategory = 'audio'
         selector.open();
       });
       window.addEventListener('birch-artifact-selector-attach-selected', function(e) {
