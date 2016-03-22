@@ -1,0 +1,48 @@
+<script>
+  (function(window) {
+    function readCookie(name) {
+      var nameEQ = name + "=";
+      var ca = document.cookie.split(';');
+      for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+      }
+      return null;
+    }
+    window.FSBehavior = {
+      properties: {
+        _base: {
+          type: String,
+          value: function() {
+            var isDefault = (~location.origin.indexOf('familysearch.org') || ~location.origin.indexOf('localhost'));
+            if (isDefault) return location.origin;
+            return 'https://beta.familysearch.org';
+          }
+        },
+        _headers: {
+          type: Object,
+          value: function() {
+            var fssessionid = readCookie('fssessionid');
+            return {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+              'Authorization': fssessionid ? ('Bearer ' + fssessionid) : ''
+            }
+          }
+        },
+        _lang: {
+          type: String,
+          value: function() {
+            if (window.FS && window.FS.simpleLocale) return FS.simpleLocale();
+            var lang = navigator.language;
+            var matches = lang.match(/^\w{2}/);
+            if (lang && matches) {
+              return matches[0];
+            }
+          }
+        }
+      }
+    };
+  })(window);
+</script>

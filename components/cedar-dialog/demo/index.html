@@ -1,0 +1,68 @@
+<!doctype html>
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+    <title>cedar-dialog Demo</title>
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <script>
+    window.Polymer = { dom: 'shadow' }
+    </script>
+    <link rel="import" href="../cedar-dialog.html">
+    <link rel="import" href="../../fs-button/fs-button.html">
+    <style is="custom-style">
+      cedar-dialog#modal2 {
+        --cedar-dialog: {
+          height:500px;
+        };
+        --cedar-dialog-title: {
+          text-align:center;
+        };
+      }
+    </style>
+  </head>
+  <body unresolved>
+    <button is='fs-button' id="toggle">Toggle Default Modal</button>
+    <button is='fs-button' id="toggleFooter">Toggle Modal (With Footer)</button>
+
+    <cedar-dialog id='modal1'>
+      <h2 header>This is my cool modal!</h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur laboriosam, reprehenderit nostrum doloremque eaque error sequi asperiores debitis nesciunt! Alias incidunt similique eveniet dolor numquam! Animi in perferendis accusamus consequatur!</p>
+      <button is='fs-button' option='recommended' dialog-confirm>Done</button>
+      <button is='fs-button' option='minor' dialog-dismiss>Cancel</button>
+    </cedar-dialog>
+
+    <cedar-dialog id='modal2'>
+      <h2 header>This is my cool modal!</h2>
+      <p>I do fun text like a boss!</p>
+      <div footer>
+        <button is='fs-button' option='recommended' dialog-confirm>Done</button>
+        <button is='fs-button' option='minor' dialog-dismiss>Cancel</button>
+      </div>
+    </cedar-dialog>
+
+    <script>
+      var modal1 = document.querySelector('#modal1');
+      var modal2 = document.querySelector('#modal2');
+      
+      document.querySelector('#toggle').addEventListener('click', function() {
+        modal1.open();
+      });
+
+      document.querySelector('#toggleFooter').addEventListener('click', function() {
+        modal2.open();
+      });
+
+    </script>
+
+  </body>
+</html>

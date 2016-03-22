@@ -1,0 +1,34 @@
+{
+  "name": "fs-card",
+  "authors": [
+    "Josh Crowther <jshcrowthe@gmail.com>"
+  ],
+  "description": "<fs-card> component from the FamilySearch styleguide",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "homepage": "https://github.com/jshcrowthe/fs-card",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#~1.1.5",
+    "fs-styles": "fs-webdev/fs-styles"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#~1.0.6"
+  },
+  "_release": "6e2ef174a0",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "6e2ef174a01ede7f0331defaed7280ae34f5b56a"
+  },
+  "_source": "git://github.com/jshcrowthe/fs-card.git",
+  "_target": "*",
+  "_originalSource": "jshcrowthe/fs-card"
+}

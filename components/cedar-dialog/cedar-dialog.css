@@ -1,0 +1,128 @@
+:host {
+  display: block;
+};
+
+paper-dialog {
+  position: relative;
+  --paper-dialog: {
+    width: 90%;
+    max-width: 545px;
+    border-radius: 4px;
+    padding: 15px;
+    @apply(--cedar-dialog);
+  };
+  --shadow-elevation-16dp: {
+    box-shadow: 0 0 4px 0 rgba(0,0,0,.35),0 3px 2px 0 rgba(0,0,0,.18);
+  }
+}
+
+/* The !important flags on this as well as the 
+ * .wrap and .close-button classes are to 
+ * override the paper-dialog default styling that makes everything look weird */
+
+::content *[header] {
+  color: #4d4d4a;
+  font-family: "museo", serif;
+  font-size: 1.313rem;
+  font-size: 21px;
+  letter-spacing: inherit;
+  line-height: 1.143;
+  margin: 0 0 10px 0;
+  text-transform: inherit;
+  @apply(--cedar-dialog-header);
+};
+
+.wrap {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100%;
+  height: 100%;
+}
+
+.header, .content {
+  width: 100%;
+}
+
+.content {
+  height: 100%;
+  max-height: calc(100% - 74px);
+}
+
+.content.fullwidth {
+  margin: 0 -15px;
+  width: calc(100% + 30px);
+  border-top: 3px solid #87B940;
+}
+
+::content [footer] {
+  display: block;
+  background: #f4f4f4;
+  padding: 10px 15px;
+  border-top: 1px solid #ccc;
+  border-bottom-right-radius: 4px;
+  border-bottom-left-radius: 4px;
+  box-sizing: border-box;
+  margin: 0 -15px -15px;
+};
+
+.close-button {
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-appearance: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  background: transparent;
+  border: none;
+  box-shadow: 0 0 0 transparent;
+  height: 1.25rem;
+  height: 20px;
+  line-height: 1;
+  margin: 0 !important;
+  padding: 0 !important;
+  position: absolute;
+  right: 0.625rem;
+  right: 10px;
+  top: 0.625rem;
+  top: 10px;
+  user-select: none;
+  width: 1.25rem;
+  width: 20px;
+  z-index: 999999;
+}
+
+.close-button:hover {
+  cursor: pointer;
+}
+
+.close-button:before,
+.close-button:after {
+  background-color: #a8a8a8;
+  border-radius: 4px;
+  content: '';
+  height: 2px;
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  width: 12px;
+  width: 0.75rem;
+}
+.close-button:before {
+  -webkit-transform: translate(-50%, -50%) rotate(45deg);
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+.close-button:after {
+  -webkit-transform: translate(-50%, -50%) rotate(-45deg);
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+.close-button:hover:before,
+.close-button:focus:before,
+.close-button:hover:after,
+.close-button:focus:after {
+  background-color: #333331;
+}
+.close-button:active:before,
+.close-button:active:after {
+  background-color: #6f6f6f;
+}

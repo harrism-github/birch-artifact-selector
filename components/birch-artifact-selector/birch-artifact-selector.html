@@ -1,0 +1,230 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../cedar-dialog/cedar-dialog.html">
+<link rel="import" href="../wc-i18n/wc-i18n.html">
+<link rel="import" href="../fs-button/fs-button.html">
+<link rel="import" href="../layout/layout.html">
+<link rel="import" href="../paper-drawer-panel/paper-drawer-panel.html">
+<link rel="import" href="../birch-gallery-view-selector/birch-gallery-view-selector.html">
+<link rel="import" href="../birch-artifact-grid/birch-artifact-grid.html">
+<link rel="import" href="../birch-gallery-top-bar/birch-gallery-top-bar.html">
+<link rel="import" href="../oak-ajax-behavior/oak-ajax-behavior.html">
+<link rel="import" href="./birch-artifact-selector-data.html">
+
+<!--
+An element providing a solution to no problem in particular.
+
+Example:
+
+    <birch-artifact-selector></birch-artifact-selector>
+
+Example:
+
+    <birch-artifact-selector>
+      <h2>Hello birch-artifact-selector</h2>
+    </birch-artifact-selector>
+
+@demo demo/index.html
+@hero hero.svg
+-->
+
+<dom-module id="birch-artifact-selector">
+  <template>
+    <style>
+      cedar-dialog {
+        --cedar-dialog: {
+          width: calc(100vw - 30px);
+          max-width: 1000px;
+          height: 600px;
+        };
+      }
+
+      cedar-dialog.mobile {
+        --cedar-dialog-fullwidth-header: {
+          border-top: 1px solid #e0e0e0;
+        }; 
+      }
+      birch-gallery-view-selector {
+        min-width: 200px;
+      }
+      .grid-wrapper {
+        width: calc(100% - 201px);
+        height:100%;
+      }
+      .wrap {
+        height: 100%;
+        width: 100%;
+        position: relative;
+      }
+      .selected-count-string {
+        font-size: 16px;
+      }
+      .selected-count {
+        margin-right: 5px;
+      }
+      .mobile-drawer-icon {
+        background-image: url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2218%22%20height%3D%2212%22%20viewBox%3D%220%200%2018%2012%22%20version%3D%221.1%22%3E%3Cg%20stroke%3D%22none%22%20stroke-width%3D%221%22%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20transform%3D%22translate%28-12.000000%2C%20-58.000000%29%22%20stroke-linecap%3D%22round%22%20stroke%3D%22%23333331%22%20stroke-width%3D%222%22%3E%3Cg%20transform%3D%22translate%2813.000000%2C%2058.000000%29%22%3E%3Cpath%20d%3D%22M0.5%201L15.5%201M0.5%206L15.5%206M0.5%2011L15.5%2011%22/%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/svg%3E');
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: 24px 16px;
+        display: inline-block;
+        height: 30px;
+        margin: 0 8px 0 0;
+        width: 30px;
+      }
+      @media screen and (min-width: 979px) {
+        birch-gallery-top-bar {
+          display: none;
+        }
+      }
+    </style>
+    <iron-media-query query="(max-width: 979px)" query-matches="{{_mobile}}"></iron-media-query>
+    <birch-aritfact-selector-data
+      open='[[_open]]'
+      cis-id='[[cisId]]' 
+      view='[[_view]]' 
+      artifact-category='[[artifactCategory]]'
+      artifacts='{{_artifacts}}' 
+      album='{{_album}}' 
+      albums='{{_albums}}' 
+      loading='{{loading}}'></birch-aritfact-selector-data>
+    <wc-i18n-src domain='birch-artifact-selector' locale-dir='[[localeDir()]]' locale-strings='{{_i18n}}'></wc-i18n-src>
+    <cedar-dialog id='modal' full-width on-iron-overlay-closed='_resetSelector' >
+      <h4 header>[[selectorTitle]]</h4>
+      <div class='wrap layout horizontal justified'>
+        <paper-drawer-panel id='drawer' responsive-width='979px' drawer-width='200px' edge-swipe-sensitivity='50'>
+          <birch-gallery-view-selector read-only drawer hide-counts
+            on-view-changed='closeDrawer'
+            count='[[_artifacts.length]]' 
+            albums='[[_albums]]' 
+            view='{{_view}}'></birch-gallery-view-selector>
+          <div main>
+            <birch-gallery-top-bar no-filter>
+              <div class='layout horizontal center' mobile-header paper-drawer-toggle>
+                <i class="mobile-drawer-icon" paper-drawer-toggle></i>
+                <span class='current-view' paper-drawer-toggle>[[_computeViewString(_view, _i18n.*)]]</span>
+              </div>
+            </birch-gallery-top-bar>
+            <birch-artifact-grid id='grid'
+              album='[[_album]]'
+              artifacts='[[_artifacts]]'
+              loading='[[loading]]'
+              selected-items='{{selectedItems}}' read-only></birch-artifact-grid>
+          </div>
+        </paper-drawer-panel>
+      </div>
+      <div footer class='layout horizontal justified'>
+        <div>
+          <button is='fs-button' option='recommended' dialog-confirm on-tap='_notifyAttach'>
+            <wc-i18n key='birch-artifact-selector.attach_photos'></wc-i18n>
+          </button>
+          <button is='fs-button' option='minor' dialog-dismiss>
+            <wc-i18n key='birch-artifact-selector.cancel'></wc-i18n>
+          </button>
+        </div>
+        <div class="layout horizontal center center-justified selected-count-string">
+          <span class='selected-count'>[[selectedItems.length]]</span>
+          <wc-i18n key='birch-artifact-selector.selected'></wc-i18n>
+        </div>
+      </div>
+    </cedar-dialog>
+  </template>
+  <script>
+    Polymer({
+      is: 'birch-artifact-selector',
+      behaviors: [
+        WCI18nBehavior,
+        OakAJAXBehavior
+      ],
+      properties: {
+        // USER INPUTS
+        cisId: {
+          type: String
+        },
+        selectorTitle: {
+          type: String
+        },
+        artifactCategory: {
+          type: String,
+          value: 'any'
+        },
+
+        // EXPORTED PROPS
+        selectedItems: {
+          type: Array,
+          notify: true
+        },
+
+        // PRIVATE PROPS
+        _view: {
+          type: String,
+          value: 'my-memories'
+        },
+        _i18n: {
+          type: Object
+        },
+        _mobile: {
+          type: Boolean,
+          observer: '_applyMobileClass'
+        },
+        _open: {
+          type: Boolean,
+          value: false
+        }
+      },
+      /**
+       * The attached -> async pattern here is documented at
+       * https://www.polymer-project.org/1.0/docs/devguide/registering-elements.html#initialization-timing-for-siblings
+       * It ensures that the parent and sibling elements will be 
+       * initialized by the time we call the callback function
+       */
+      attached: function() {
+        this.async(function() {
+          this.updateStyles();
+        }.bind(this));
+      },
+      _applyMobileClass: function(val) {
+        var func = val ? 'add' : 'remove';
+        this.$.modal.classList[func]('mobile');
+        this.updateStyles();
+      },
+      _computeViewString: function(view, i18n) {
+        if (parseInt(view)) {
+          return this._albums.filter(function(album) {
+            return album.id === parseInt(view);
+          }).reduce(function(string, album) {
+            return album.name;
+          }, '');
+        } else if(this._i18n) {
+          return this._i18n[view];
+        }
+      },
+      _resetSelector: function() {
+        this.$.grid.deselectAll();
+        this._view = 'my-memories';
+        this._open = false;
+      },
+      _notifyAttach: function() {
+        this.fire('birch-artifact-selector-attach-selected', {
+          items: this.selectedItems
+        });
+      },
+      open: function() {
+        this._open = true;
+        this.$.modal.open();
+      },
+      closeDrawer: function() {
+        this.$.drawer.closeDrawer();
+      },
+    });
+  </script>
+</dom-module>

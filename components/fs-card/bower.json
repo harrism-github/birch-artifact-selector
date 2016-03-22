@@ -1,0 +1,26 @@
+{
+  "name": "fs-card",
+  "version": "0.1.0",
+  "authors": [
+    "Josh Crowther <jshcrowthe@gmail.com>"
+  ],
+  "description": "<fs-card> component from the FamilySearch styleguide",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#~1.1.5",
+    "fs-styles": "fs-webdev/fs-styles"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#~1.0.6"
+  }
+}

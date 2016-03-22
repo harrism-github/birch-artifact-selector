@@ -1,0 +1,41 @@
+{
+  "name": "birch-artifact-selector",
+  "version": "1.0.7",
+  "authors": [
+    "Anonymous <anonymous@example.com>"
+  ],
+  "description": "An element providing a solution to no problem in particular.",
+  "keywords": [
+    "web-component",
+    "polymer",
+    "seed"
+  ],
+  "main": "birch-artifact-selector.html",
+  "license": "http://polymer.github.io/LICENSE.txt",
+  "homepage": "https://github.com/<USERNAME>/seed-element/",
+  "ignore": [
+    "/.*",
+    "/test/"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.2.0",
+    "fs-button": "jshcrowthe/fs-button",
+    "iron-flex-layout": "PolymerElements/iron-flex-layout",
+    "birch-gallery-view-selector": "FamilySearchElements/birch-gallery-view-selector",
+    "birch-artifact-grid": "FamilySearchElements/birch-artifact-grid",
+    "cedar-dialog": "FamilySearchElements/cedar-dialog",
+    "wc-i18n": "jshcrowthe/wc-i18n#^1.1.0",
+    "iron-ajax": "PolymerElements/iron-ajax#^1.2.0",
+    "paper-drawer-panel": "PolymerElements/paper-drawer-panel#1.0.9",
+    "oak-ajax-behavior": "FamilySearchElements/oak-ajax-behavior",
+    "birch-gallery-top-bar": "FamilySearchElements/birch-gallery-top-bar",
+    "iron-media-query": "PolymerElements/iron-media-query#^1.0.8"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0"
+  },
+  "resolutions": {
+    "polymer": "~1.2.0",
+    "iron-ajax": "^1.2.0"
+  }
+}

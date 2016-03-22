@@ -1,0 +1,32 @@
+{
+  "name": "fs-button",
+  "authors": [
+    "Josh Crowther <jshcrowthe@gmail.com>"
+  ],
+  "description": "A type extension element for button from the FamilySearch styleguide",
+  "main": "fs-button.html",
+  "moduleType": [],
+  "keywords": [
+    "button",
+    "styleguide"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "/demo"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#~1.1.5"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#~1.0.6"
+  },
+  "resolutions": {
+    "polymer": "^1.2.0"
+  }
+}

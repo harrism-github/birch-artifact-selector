@@ -1,0 +1,35 @@
+{
+  "name": "fs-styles",
+  "description": "Global styles for the FamilySearch.org website.",
+  "keywords": [
+    "css",
+    "stylus",
+    "familysearch",
+    "styles"
+  ],
+  "homepage": "https://github.com/fs-webdev/fs-styles",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fs-webdev/fs-styles.git"
+  },
+  "main": [
+    "dist/familysearch-styles.css",
+    "fs-styles.html"
+  ],
+  "ignore": [
+    ".DS_Store",
+    ".gitignore"
+  ],
+  "moduleType": "globals",
+  "license": "SEE LICENSE IN LICENSE.txt",
+  "version": "1.8.0",
+  "_release": "1.8.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "1.8.0",
+    "commit": "1e524609fbfcf118f7759f83013880e4cb15cd06"
+  },
+  "_source": "git://github.com/fs-webdev/fs-styles.git",
+  "_target": "~1.8.0",
+  "_originalSource": "fs-webdev/fs-styles"
+}

@@ -1,0 +1,25 @@
+:host {
+  display:inline-block;
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: 0 0 4px 0 rgba(0,0,0,.35), 0 3px 2px 0 rgba(0,0,0,.18);
+  margin-bottom: 10px;
+}
+.title {
+  font-family: "ProximaNova", sans-serif;
+  color: #4d4d4a;
+  font-size: 14px;
+  font-size: 0.875rem;
+  letter-spacing: 1px;
+  line-height: 1.286;
+  text-transform: uppercase;
+  border-radius: 4px 4px 0 0;
+  padding: 10px 15px;
+  border-bottom: 1px solid #ccc;
+  margin: 0;
+  @apply(--fs-card-title);
+}
+.body {
+  padding:15px;
+  @apply(--fs-card-body);
+}

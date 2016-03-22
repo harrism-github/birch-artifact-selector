@@ -1,0 +1,30 @@
+{
+  "name": "birch-artifact-filters",
+  "version": "1.0.3",
+  "authors": [
+    "Anonymous <anonymous@example.com>"
+  ],
+  "description": "An element providing a solution to no problem in particular.",
+  "keywords": [
+    "web-component",
+    "polymer",
+    "seed"
+  ],
+  "main": "birch-artifact-filters.html",
+  "license": "http://polymer.github.io/LICENSE.txt",
+  "homepage": "https://github.com/<USERNAME>/seed-element/",
+  "ignore": [
+    "/.*",
+    "/test/"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.1.0",
+    "paper-tabs": "PolymerElements/paper-tabs#~1.0.10",
+    "iron-media-query": "PolymerElements/iron-media-query#~1.0.6",
+    "wc-i18n": "jshcrowthe/wc-i18n"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+    "web-component-tester": "*"
+  }
+}

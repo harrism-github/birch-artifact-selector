@@ -1,0 +1,35 @@
+{
+  "name": "fs-behavior",
+  "authors": [
+    "Anonymous <anonymous@example.com>"
+  ],
+  "description": "An element providing a solution to no problem in particular.",
+  "keywords": [
+    "web-component",
+    "polymer",
+    "seed"
+  ],
+  "main": "fs-behavior.html",
+  "license": "http://polymer.github.io/LICENSE.txt",
+  "homepage": "https://github.com/<USERNAME>/seed-element/",
+  "ignore": [
+    "/.*",
+    "/test/"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.1.0"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+    "web-component-tester": "*"
+  },
+  "_release": "36ad6eb7f8",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "36ad6eb7f86db609d1da76f21ef552ac34355b15"
+  },
+  "_source": "git://github.com/jshcrowthe/fs-behavior.git",
+  "_target": "*",
+  "_originalSource": "jshcrowthe/fs-behavior"
+}

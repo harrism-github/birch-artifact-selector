@@ -1,0 +1,32 @@
+{
+  "name": "cedar-dialog",
+  "version": "0.1.0",
+  "authors": [
+    "Josh Crowther <jshcrowthe@gmail.com>"
+  ],
+  "description": "A <cedar-dialog> element that models the FamilySearch styleguide",
+  "keywords": [
+    "web-component",
+    "polymer",
+    "seed"
+  ],
+  "main": "cedar-dialog.html",
+  "homepage": "https://github.com/jshcrowthe/cedar-dialog/",
+  "ignore": [
+    "/.*",
+    "/test/"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.1.0",
+    "paper-dialog": "PolymerElements/paper-dialog#~1.0.0",
+    "fs-styles": "fs-webdev/fs-styles"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+    "web-component-tester": "*",
+    "fs-button": "jshcrowthe/fs-button"
+  },
+  "resolutions": {
+    "polymer": "^1.2.0"
+  }
+}

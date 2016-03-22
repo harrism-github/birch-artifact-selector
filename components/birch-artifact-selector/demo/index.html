@@ -1,0 +1,80 @@
+<!doctype html>
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+    <title>birch-artifact-selector Demo</title>
+    <script src="../../webcomponentsjs/webcomponents-lite.min.js"></script>
+    <script>
+      window.Polymer = { dom:'shadow' }
+    </script>
+    <link rel="import" href="../birch-artifact-selector.html">
+  </head>
+  <body unresolved>
+
+    <p>An example of <code>&lt;birch-artifact-selector&gt;</code>:</p>
+    
+    <template id='app' is='dom-bind'>
+      <label>Insert integration sessionId:</label><input id='input' type="text" on-input='_handleInput'>
+      <script>
+      var selector = document.querySelector('birch-artifact-selector');
+      (function() {
+        var app = document.querySelector('#app');
+        var _cache = sessionStorage.getItem('sessionId-cache');
+        if (_cache) {
+          selector.sessionId = app.$.input.value = _cache
+        }
+
+        app._handleInput = function() {
+          selector.sessionId = app.$.input.value;
+          sessionStorage.setItem('sessionId-cache', selector.sessionId);
+        };
+      })()
+      </script>
+    </template>
+
+    <p>Click Here: <button id="openPhotos">Open Photos</button></p>
+    <p>Click Here: <button id="openStories">Open Stories</button></p>
+    <p>Click Here: <button id="openDocuments">Open Documents</button></p>
+    <p>Click Here: <button id="openAudio">Open Audio</button></p>
+
+    <birch-artifact-selector cis-id='cis.user.MMMM-DT6K' selector-title='Select Photos!'></birch-artifact-selector>
+
+    <script>
+      
+      var photoButton = document.querySelector('#openPhotos');
+      var storyButton = document.querySelector('#openStories');
+      var docButton = document.querySelector('#openDocuments');
+      var audioButton = document.querySelector('#openAudio');
+      photoButton.addEventListener('click', function() {
+        selector.artifactCategory = 'photos'
+        selector.open();
+      });
+      storyButton.addEventListener('click', function() {
+        selector.artifactCategory = 'stories'
+        selector.open();
+      });
+      docButton.addEventListener('click', function() {
+        selector.artifactCategory = 'document'
+        selector.open();
+      });
+      audioButton.addEventListener('click', function() {
+        selector.artifactCategory = 'audio'
+        selector.open();
+      });
+      window.addEventListener('birch-artifact-selector-attach-selected', function(e) {
+        console.log('Attaching:', e.detail.items);
+      });
+    </script>
+
+  </body>
+</html>

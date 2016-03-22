@@ -1,0 +1,41 @@
+{
+  "name": "fs-button",
+  "authors": [
+    "Josh Crowther <jshcrowthe@gmail.com>"
+  ],
+  "description": "A type extension element for button from the FamilySearch styleguide",
+  "main": "fs-button.html",
+  "moduleType": [],
+  "keywords": [
+    "button",
+    "styleguide"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/jshcrowthe/fs-button",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "/demo"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#~1.1.5"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#~1.0.6"
+  },
+  "resolutions": {
+    "polymer": "^1.2.0"
+  },
+  "_release": "2d6c9f017d",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "2d6c9f017d26504d66aeb05edd0cfb7decf6007b"
+  },
+  "_source": "git://github.com/jshcrowthe/fs-button.git",
+  "_target": "*",
+  "_originalSource": "jshcrowthe/fs-button"
+}

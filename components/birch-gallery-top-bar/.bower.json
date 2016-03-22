@@ -1,0 +1,43 @@
+{
+  "name": "birch-gallery-top-bar",
+  "authors": [
+    "Anonymous <anonymous@example.com>"
+  ],
+  "description": "An element providing a solution to no problem in particular.",
+  "keywords": [
+    "web-component",
+    "polymer",
+    "seed"
+  ],
+  "main": "birch-gallery-top-bar.html",
+  "license": "http://polymer.github.io/LICENSE.txt",
+  "homepage": "https://github.com/<USERNAME>/seed-element/",
+  "ignore": [
+    "/.*",
+    "/test/"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.1.0",
+    "iron-media-query": "PolymerElements/iron-media-query#~1.0.6",
+    "layout": "Polymer/layout",
+    "fs-styles": "fs-webdev/fs-styles#~1.8.0",
+    "wc-i18n": "jshcrowthe/wc-i18n#^1.1.0",
+    "birch-artifact-filters": "FamilySearchElements/birch-artifact-filters"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+    "web-component-tester": "*"
+  },
+  "resolutions": {
+    "polymer": "^1.2.0"
+  },
+  "_release": "bf4b005460",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "bf4b005460a30084672eca7687312b16a5bb7b92"
+  },
+  "_source": "git://github.com/FamilySearchElements/birch-gallery-top-bar.git",
+  "_target": "*",
+  "_originalSource": "FamilySearchElements/birch-gallery-top-bar"
+}
