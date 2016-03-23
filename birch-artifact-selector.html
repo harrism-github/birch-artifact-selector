@@ -126,7 +126,7 @@ Example:
       <div footer class='layout horizontal justified'>
         <div>
           <button is='fs-button' option='recommended' dialog-confirm on-tap='_notifyAttach'>
-            <wc-i18n key='birch-artifact-selector.attach_photos'></wc-i18n>
+            [[_attachType(_i18n.attach_type, artifactCategory)]]
           </button>
           <button is='fs-button' option='minor' dialog-dismiss>
             <wc-i18n key='birch-artifact-selector.cancel'></wc-i18n>
@@ -172,7 +172,8 @@ Example:
           value: 'my-memories'
         },
         _i18n: {
-          type: Object
+          type: Object,
+          value: function(){ return {}; }
         },
         _mobile: {
           type: Boolean,
@@ -181,7 +182,7 @@ Example:
         _open: {
           type: Boolean,
           value: false
-        }
+        },
       },
       /**
        * The attached -> async pattern here is documented at
@@ -193,6 +194,12 @@ Example:
         this.async(function() {
           this.updateStyles();
         }.bind(this));
+      },
+      _attachType: function(string, type) {
+        if (!string) return;
+        return (function(translatedType) {
+          return string.replace('${type}', translatedType || this._i18n.artifacts);
+        }.bind(this))(this._i18n[type]);
       },
       _applyMobileClass: function(val) {
         var func = val ? 'add' : 'remove';

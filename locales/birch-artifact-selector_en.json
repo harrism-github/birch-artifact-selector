@@ -1,5 +1,10 @@
 {
-  "attach_photos":"Attach Photos",
+  "artifacts":"Aritfacts",
+  "photos":"Photos",
+  "stories":"Stories",
+  "document":"Documents",
+  "audio":"Audio",
+  "attach_type":"Attach ${type}",
   "cancel":"Cancel",
   "selected":"Selected",
   "my-memories":"My Memories",
