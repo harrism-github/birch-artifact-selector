@@ -17,6 +17,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../birch-gallery-view-selector/birch-gallery-view-selector.html">
 <link rel="import" href="../birch-artifact-grid/birch-artifact-grid.html">
 <link rel="import" href="../birch-gallery-top-bar/birch-gallery-top-bar.html">
+<link rel="import" href="../oak-i18n-behavior/oak-i18n-behavior.html">
 <link rel="import" href="../oak-ajax-behavior/oak-ajax-behavior.html">
 <link rel="import" href="./birch-artifact-selector-data.html">
 
@@ -97,7 +98,7 @@ Example:
       album='{{_album}}' 
       albums='{{_albums}}' 
       loading='{{loading}}'></birch-aritfact-selector-data>
-    <wc-i18n-src domain='birch-artifact-selector' locale-dir='[[localeDir()]]' locale-strings='{{_i18n}}'></wc-i18n-src>
+    <wc-i18n-src locale='[[lang]]' domain='birch-artifact-selector' locale-dir='[[localeDir()]]' locale-strings='{{_i18n}}'></wc-i18n-src>
     <cedar-dialog id='modal' full-width on-iron-overlay-closed='_resetSelector' >
       <h4 header>[[selectorTitle]]</h4>
       <div class='wrap layout horizontal justified'>
@@ -143,7 +144,8 @@ Example:
       is: 'birch-artifact-selector',
       behaviors: [
         WCI18nBehavior,
-        OakAJAXBehavior
+        OakAJAXBehavior,
+        OakI18nBehavior
       ],
       properties: {
         // USER INPUTS

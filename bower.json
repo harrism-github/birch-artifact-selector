@@ -29,7 +29,8 @@
     "paper-drawer-panel": "PolymerElements/paper-drawer-panel#1.0.9",
     "oak-ajax-behavior": "FamilySearchElements/oak-ajax-behavior",
     "birch-gallery-top-bar": "FamilySearchElements/birch-gallery-top-bar",
-    "iron-media-query": "PolymerElements/iron-media-query#^1.0.8"
+    "iron-media-query": "PolymerElements/iron-media-query#^1.0.8",
+    "oak-i18n-behavior": "FamilySearchElements/oak-i18n-behavior"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0"
