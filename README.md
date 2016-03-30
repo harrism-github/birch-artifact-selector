@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/FamilySearchElements/birch-artifact-selector.svg?branch=master)](https://travis-ci.org/FamilySearchElements/birch-artifact-selector)
+[![Coverage Status](https://coveralls.io/repos/github/FamilySearchElements/birch-artifact-selector/badge.svg?branch=master)](https://coveralls.io/github/FamilySearchElements/birch-artifact-selector?branch=master)
+
 # birch-artifact-selector
 
 An element providing a starting point for your own reusable Polymer elements.
