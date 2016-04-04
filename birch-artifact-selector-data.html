@@ -59,6 +59,10 @@
                (artifact.description && ~artifact.description.toLowerCase().indexOf(val));
       };
     }
+    var populateThumbUrl = function(item) {
+      item.thumbUrl = item.thumbUrl || '';
+      return item;
+    };
 
     var _cache = {};
     Polymer({
@@ -187,7 +191,7 @@
           artifacts = artifacts.filter(categoryFilter(this.artifactCategory || this.filterVal));
         }
 
-        return artifacts;
+        return artifacts.map(populateThumbUrl);
       }
     });
   })();
