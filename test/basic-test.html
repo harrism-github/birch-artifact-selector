@@ -33,7 +33,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <test-fixture id="birch-artifact-selector-data-fixture">
       <template>
-        <birch-artifact-selector-data 
+        <birch-artifact-selector-data
           cis-id='cis.user.MMMM-MM4J'
           view='my-memories'
           artifact-category='any'
@@ -47,13 +47,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       suite('<birch-artifact-selector>', function() {
         var el;
         var server;
-        
+
         setup(function() {
           el = fixture('birch-artifact-selector-fixture');
 
           server = sinon.fakeServer.create();
           server.respondWith("GET", "/artifactmanager/patrons/cis.user.MMMM-MM4J/artifacts?includePortraits=false&artifactArchivedState=NON_ARCHIVED",
-            [ 200, { 'Content-Type': 'application/json' }, 
+            [ 200, { 'Content-Type': 'application/json' },
             '{ "artifact": '+artifactList+' }'
             ]);
           //server.respondImmediately = true;
@@ -102,7 +102,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
           server = sinon.fakeServer.create();
           server.respondWith("GET", "https://integration.familysearch.org/artifactmanager/patrons/cis.user.MMMM-MM4J/artifacts?includePortraits=false&artifactArchivedState=NON_ARCHIVED",
-            [ 200, { 'Content-Type': 'application/json' }, 
+            [ 200, { 'Content-Type': 'application/json' },
             '{ "artifact": '+artifactList+' }'
             ]);
           server.respondWith("GET", "https://integration.familysearch.org/artifactmanager/patrons/cis.user.MMMM-MM4J/albums",
@@ -120,7 +120,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         });
 
         test('Change in open value calls _fetchArtifact', function() {
-          var spy = sinon.spy(el, '_fetchArtifact');          
+          var spy = sinon.spy(el, '_fetchArtifact');
           el.open = true;
           expect(spy.calledOnce).to.be.true;
         });
@@ -197,6 +197,32 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             });
           });
         });
+
+        test('Cis id is passed down to the birch artifcat selector data component', function() {
+          var dataComp = Polymer.dom(el.root).querySelectorAll('birch-artifact-selector-data')[0];
+          expect(dataComp.cisId).to.equal('cis.user.MMMM-MM4J');
+        });
+
+        test('Modal opens', function() {
+          el.open();
+          expect(el._open).to.be.true;
+        });
+
+        test('View changes for collection', function() {
+          el.open();
+          var viewSelector = Polymer.dom(el.root).querySelectorAll('birch-gallery-view-selector')[0];
+          viewSelector.view = 'my-favorites';
+          expect(el._view).to.equal('my-favorites');
+        });
+
+        test('Notify of attach', function() {
+          el.open();
+          var spy = sinon.spy(el, '_notifyAttach');
+          Polymer.dom(el.root).querySelectorAll('button[option = recommended]')[0].click();
+          expect(spy.calledOnce).to.be.true;
+
+        });
+
       });
     </script>
   </body>
