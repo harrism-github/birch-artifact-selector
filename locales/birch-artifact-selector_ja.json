@@ -1,0 +1,13 @@
+{
+  "artifacts": "収蔵品",
+  "attach_type": "${type}を添付する",
+  "audio": "音声",
+  "cancel": "キャンセル",
+  "document": "ドキュメント",
+  "my-archive": "アーカイブ",
+  "my-favorites": "お気に入り",
+  "my-memories": "思い出",
+  "photos": "写真",
+  "selected": "選択済み",
+  "stories": "ストーリー"
+}
