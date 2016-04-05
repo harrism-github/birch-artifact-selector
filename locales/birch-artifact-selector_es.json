@@ -1,0 +1,13 @@
+{
+  "artifacts": "Objeto",
+  "attach_type": "Adjuntar ${type}",
+  "audio": "Audio",
+  "cancel": "Cancelar",
+  "document": "Documentos",
+  "my-archive": "Mi archivo",
+  "my-favorites": "Mis favoritos",
+  "my-memories": "Mis recuerdos",
+  "photos": "Fotos",
+  "selected": "Seleccionado",
+  "stories": "Historias"
+}
