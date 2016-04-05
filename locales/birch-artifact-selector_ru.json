@@ -1,0 +1,13 @@
+{
+  "artifacts": "Артефакты",
+  "attach_type": "Присоединить ${type}",
+  "audio": "Аудиозаписи",
+  "cancel": "Отменить",
+  "document": "Документы",
+  "my-archive": "Мой архив",
+  "my-favorites": "Избранное",
+  "my-memories": "Мои воспоминания",
+  "photos": "Фотографии",
+  "selected": "Выбранное",
+  "stories": "Истории"
+}
