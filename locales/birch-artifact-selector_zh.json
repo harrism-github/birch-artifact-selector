@@ -1,0 +1,13 @@
+{
+  "artifacts": "文物",
+  "attach_type": "附加${type}",
+  "audio": "音訊",
+  "cancel": "取消",
+  "document": "文件",
+  "my-archive": "我的文獻",
+  "my-favorites": "我的最愛",
+  "my-memories": "我的回憶",
+  "photos": "相片",
+  "selected": "已選取",
+  "stories": "故事"
+}
