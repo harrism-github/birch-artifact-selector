@@ -1,0 +1,13 @@
+{
+  "artifacts": "Ricordi",
+  "attach_type": "Collega ${type}",
+  "audio": "File audio",
+  "cancel": "Annulla",
+  "document": "Documenti",
+  "my-archive": "Il mio archivio",
+  "my-favorites": "I miei preferiti",
+  "my-memories": "I miei ricordi",
+  "photos": "Fotografie",
+  "selected": "Selezionati",
+  "stories": "Storie"
+}
