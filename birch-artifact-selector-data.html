@@ -5,17 +5,18 @@
 <dom-module id="birch-artifact-selector-data">
   <template>
   <iron-ajax
-     id='req'
-     loading='{{loading}}'
-     handle-as="json"
-     headers='[[authHeaders]]'
-     on-response="_handleResponse"></iron-ajax>
+    id='req'
+    loading='{{loading}}'
+    handle-as="json"
+    headers='[[authHeaders]]'
+    on-response="_handleResponse"></iron-ajax>
   <iron-ajax auto
-     url='[[ajaxBase]]/artifactmanager/patrons/[[cisId]]/albums'
-     loading='{{loading}}'
-     handle-as="json"
-     headers='[[authHeaders]]'
-     on-response="_handleAlbums"></iron-ajax>
+    id='albumReq'
+    url='[[ajaxBase]]/artifactmanager/patrons/[[cisId]]/albums'
+    loading='{{loading}}'
+    handle-as="json"
+    headers='[[authHeaders]]'
+    on-response="_handleAlbums"></iron-ajax>
   </template>
   <script>
   (function() {
@@ -190,8 +191,9 @@
         if (this.artifactCategory || this.filterVal) {
           artifacts = artifacts.filter(categoryFilter(this.artifactCategory || this.filterVal));
         }
-
+        
         return artifacts.map(populateThumbUrl);
+
       }
     });
   })();

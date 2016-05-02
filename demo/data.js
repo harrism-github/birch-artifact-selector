@@ -1,4 +1,4 @@
-[
+window.artifactRes = [
   {
     "id": 23892930, 
     "apid": "TH-904-62445-109-64", 

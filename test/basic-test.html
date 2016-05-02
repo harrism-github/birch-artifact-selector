@@ -18,29 +18,186 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <!-- Step 1: import the element to test -->
     <link rel="import" href="../birch-artifact-selector.html">
+    <script src="../demo/data.js"></script>
   </head>
   <body>
 
     <!-- You can use the document as a place to set up your fixtures. -->
     <test-fixture id="birch-artifact-selector-fixture">
       <template>
-        <birch-artifact-selector>
+        <birch-artifact-selector cis-id='cis.user.MMMM-MM4J'>
           <h2>birch-artifact-selector</h2>
         </birch-artifact-selector>
       </template>
     </test-fixture>
 
+    <test-fixture id="birch-artifact-selector-data-fixture">
+      <template>
+        <birch-artifact-selector-data 
+          cis-id='cis.user.MMMM-MM4J'
+          view='my-memories'
+          artifact-category='any'
+        </birch-artifact-selector-data>
+      </template>
+    </test-fixture>
+
     <script>
+      var artifactList = JSON.stringify(window.artifactRes);
+
       suite('<birch-artifact-selector>', function() {
-
         var el;
-
+        var server;
+        
         setup(function() {
           el = fixture('birch-artifact-selector-fixture');
+
+          server = sinon.fakeServer.create();
+          server.respondWith("GET", "/artifactmanager/patrons/cis.user.MMMM-MM4J/artifacts?includePortraits=false&artifactArchivedState=NON_ARCHIVED",
+            [ 200, { 'Content-Type': 'application/json' }, 
+            '{ "artifact": '+artifactList+' }'
+            ]);
+          //server.respondImmediately = true;
+          server.respondWith("GET", "/artifactmanager/patrons/cis.user.MMMM-MM4J/albums",
+            [ 200, { 'Content-Type': 'application/json' },
+            '{ "album": ['+artifactList+'] }'
+            ]);
         });
 
+        test('Cis id is passed down to the birch artifact selector data component', function() {
+          var dataComp = Polymer.dom(el.root).querySelectorAll('birch-artifact-selector-data')[0];
+          expect(dataComp.cisId).to.equal('cis.user.MMMM-MM4J');
+        });
+
+        test('Modal opens', function() {
+          el.open();
+          expect(el._open).to.be.true;
+        });
+
+        test('View changes for collection', function() {
+          el.open();
+          var viewSelector = Polymer.dom(el.root).querySelectorAll('birch-gallery-view-selector')[0];
+          viewSelector.view = 'my-favorites';
+          expect(el._view).to.equal('my-favorites');
+        });
+
+        test('Notify of attach', function() {
+          el.open();
+          var spy = sinon.spy(el, '_notifyAttach');
+          Polymer.dom(el.root).querySelectorAll('button[option = recommended]')[0].click();
+          expect(spy.calledOnce).to.be.true;
+
+        });
+      });
+
+      suite('<birch-artifact-selector-data>', function() {
+        var el;
+        var server;
+        var albumSpy;
+        var artifactSpy;
+
+        setup(function() {
+          el = fixture('birch-artifact-selector-data-fixture');
+          albumSpy = sinon.spy(el, '_handleAlbums');
+          artifactSpy = sinon.spy(el, '_handleResponse');
+
+          server = sinon.fakeServer.create();
+          server.respondWith("GET", "https://integration.familysearch.org/artifactmanager/patrons/cis.user.MMMM-MM4J/artifacts?includePortraits=false&artifactArchivedState=NON_ARCHIVED",
+            [ 200, { 'Content-Type': 'application/json' }, 
+            '{ "artifact": '+artifactList+' }'
+            ]);
+          server.respondWith("GET", "https://integration.familysearch.org/artifactmanager/patrons/cis.user.MMMM-MM4J/albums",
+            [ 200, { 'Content-Type': 'application/json' },
+            '{ "album": ['+artifactList+'] }'
+            ]);
+        });
+
+        teardown(function() {
+          server.restore();
+        });
+
+        test('Component is ok', function() {
+          expect(el).to.be.ok;
+        });
+
+        test('Change in open value calls _fetchArtifact', function() {
+          var spy = sinon.spy(el, '_fetchArtifact');          
+          el.open = true;
+          expect(spy.calledOnce).to.be.true;
+        });
+
+        test('Artifact Request Handling', function(done) {
+          el.open = true;
+          server.respond();
+          flush(function() {
+            expect(artifactSpy.calledOnce).to.be.true;
+            done();
+          })
+        });
+
+        test('Album request handling', function(done) {
+          Polymer.dom(el.root).querySelector('#albumReq').generateRequest();
+          server.respond();
+          flush(function() {
+            expect(albumSpy.called).to.be.true;
+            done();
+          });
+        });
+
+        suite('Filtering', function() {
+          setup(function() {
+            el.open = true;
+            server.respond();
+          })
+
+          test('Filter on audio', function(done) {
+            flush(function() {
+              el.artifactCategory = "audio";
+              el.artifacts.forEach(function(item) {
+                expect(item.category).to.equal('AUDIO');
+              });
+              done();
+            })
+          });
+
+          test('Filter on photos', function(done) {
+            flush(function() {
+              el.artifactCategory = "photos";
+              el.artifacts.forEach(function(item) {
+                expect(item.category).to.equal('IMAGE');
+              });
+              done();
+            })
+          });
+
+          test('Filter on stoires', function(done) {
+            flush(function() {
+              el.artifactCategory = "stories";
+              el.artifacts.forEach(function(item) {
+                expect(item.category).to.equal('STORY');
+              });
+              done();
+            })
+          });
+
+          test('Filter on documents', function(done) {
+            flush(function() {
+              el.artifactCategory = "documents";
+              el.artifacts.forEach(function(item) {
+                expect(item.category).to.equal('DOCUMENT');
+              });
+              done();
+            });
+          });
+
+          test('Searching', function(done) {
+            flush(function() {
+              el.searchVal = "Crowther";
+              expect(el.artifacts.length).to.equal(5);
+              done();
+            });
+          });
+        });
       });
     </script>
-
   </body>
 </html>
