@@ -29,9 +29,9 @@
       return false;
     }
     function storiesFilter(artifact) {
-      if (artifact && Array.isArray(artifact.contentCategories)) 
-        return (~artifact.contentCategories.indexOf('STORY') || 
-                ~artifact.contentCategories.indexOf('OBITUARY')) && 
+      if (artifact && Array.isArray(artifact.contentCategories))
+        return (~artifact.contentCategories.indexOf('STORY') ||
+                ~artifact.contentCategories.indexOf('OBITUARY')) &&
                artifact.category !== 'AUDIO';
       return false;
     }
@@ -102,9 +102,12 @@
           readOnly: true,
           notify: true
         },
+        exclusions: {
+          type: Array
+        },
         view: {
           type: String,
-          value: 'my-memories',
+          value: 'my-memories'
         },
         cisId: {
           type: String
@@ -122,6 +125,15 @@
         '_fetchArtifact(view, cisId, open)',
         '_filterArtifacts(artifactCategory, filterVal, searchVal)'
       ],
+      addExclusion: function(item) {
+        this.exclusions.push(item);
+        Object.keys(_cache).forEach(function (key) {
+          var artifacts = _cache[key].artifacts;
+          _cache[key].artifacts = artifacts.filter(function(artifact) {
+            return artifact.id != item;
+          })
+        })
+      },
       _fetchArtifact: function(view, cisId, open) {
         if (!cisId || !open) return;
 
@@ -173,6 +185,12 @@
           this._setAlbum(data.album);
           artifacts = data.artifactList.artifact;
         }
+        //filter out the exclusions
+        if (this.exclusions.length > 0) {
+          artifacts = artifacts.filter(function(artifact) {
+            return (!this.exclusions.includes(artifact.id))
+          }.bind(this))
+        }
 
         // Set Artifacts and Update the View
         this._setArtifacts(this._processArtifacts(artifacts));
@@ -191,9 +209,8 @@
         if (this.artifactCategory || this.filterVal) {
           artifacts = artifacts.filter(categoryFilter(this.artifactCategory || this.filterVal));
         }
-        
-        return artifacts.map(populateThumbUrl);
 
+        return artifacts.map(populateThumbUrl);
       }
     });
   })();
