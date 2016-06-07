@@ -52,7 +52,7 @@ Example:
       cedar-dialog.mobile {
         --cedar-dialog-fullwidth-header: {
           border-top: 1px solid #e0e0e0;
-        }; 
+        };
       }
       birch-gallery-view-selector {
         min-width: 200px;
@@ -91,12 +91,13 @@ Example:
     <iron-media-query query="(max-width: 979px)" query-matches="{{_mobile}}"></iron-media-query>
     <birch-artifact-selector-data
       open='[[_open]]'
-      cis-id='[[cisId]]' 
-      view='[[_view]]' 
+      cis-id='[[cisId]]'
+      view='[[_view]]'
       artifact-category='[[_artifactCategory]]'
-      artifacts='{{_artifacts}}' 
-      album='{{_album}}' 
-      albums='{{_albums}}' 
+      artifacts='{{_artifacts}}'
+      exclusions='[[exclusions]]'
+      album='{{_album}}'
+      albums='{{_albums}}'
       loading='{{loading}}'></birch-artifact-selector-data>
     <wc-i18n-src locale='[[lang]]' domain='birch-artifact-selector' locale-dir='[[localeDir()]]' locale-strings='{{_i18n}}'></wc-i18n-src>
     <cedar-dialog id='modal' full-width on-iron-overlay-closed='_resetSelector' on-iron-overlay-opened='_handleCategoryAdjust'>
@@ -105,8 +106,8 @@ Example:
         <paper-drawer-panel id='drawer' responsive-width='979px' drawer-width='200px' edge-swipe-sensitivity='50'>
           <birch-gallery-view-selector read-only drawer hide-counts
             on-view-changed='closeDrawer'
-            count='[[_artifacts.length]]' 
-            albums='[[_albums]]' 
+            count='[[_artifacts.length]]'
+            albums='[[_albums]]'
             view='{{_view}}'></birch-gallery-view-selector>
           <div main>
             <birch-gallery-top-bar no-filter>
@@ -171,6 +172,15 @@ Example:
           type: String,
           value: 'any'
         },
+        /**
+         * List of items to be excluded from the
+         * list of artifacts
+         */
+        exclusions: {
+          type: Array,
+          value: function() { return []; },
+          notify: true
+        },
 
         // EXPORTED PROPS
         selectedItems: {
@@ -199,13 +209,17 @@ Example:
       /**
        * The attached -> async pattern here is documented at
        * https://www.polymer-project.org/1.0/docs/devguide/registering-elements.html#initialization-timing-for-siblings
-       * It ensures that the parent and sibling elements will be 
+       * It ensures that the parent and sibling elements will be
        * initialized by the time we call the callback function
        */
       attached: function() {
         this.async(function() {
           this.updateStyles();
         }.bind(this));
+      },
+      addExclusion: function(item) {
+        var selectorData = this.$$('birch-artifact-selector-data');
+        selectorData.addExclusion(item);
       },
       _attachType: function(string, type) {
         if (!string) return;
@@ -249,7 +263,7 @@ Example:
       },
       closeDrawer: function() {
         this.$.drawer.closeDrawer();
-      },
+      }
     });
   </script>
 </dom-module>
