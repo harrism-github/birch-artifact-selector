@@ -126,12 +126,19 @@
         '_fetchArtifact(view, cisId, open)',
         '_filterArtifacts(artifactCategory, filterVal, searchVal)'
       ],
-      addExclusion: function(item) {
-        this.exclusions.push(item);
+      /**
+       * @param integer
+       * Takes the artifact ID of an
+       * artifact to add to the exclusions
+       * list and remove from the artifacts array.
+       */
+      addExclusion: function(artifactId) {
+        this.exclusions.push(artifactId);
         Object.keys(_cache).forEach(function (key) {
+          if (typeof _cache[key] !== 'object' || !_cache[key].artifacts) return;
           var artifacts = _cache[key].artifacts;
           _cache[key].artifacts = artifacts.filter(function(artifact) {
-            return artifact.id != item;
+            return artifact.id != artifactId;
           })
         })
       },
@@ -189,7 +196,7 @@
         //filter out the exclusions
         if (this.exclusions.length > 0) {
           artifacts = artifacts.filter(function(artifact) {
-            return (!this.exclusions.includes(artifact.id))
+            return (!~this.exclusions.indexOf(artifact.id))
           }.bind(this))
         }
 
