@@ -34,10 +34,12 @@
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
-    "web-component-tester": "~4.2.2"
+    "web-component-tester": "~4.2.2",
+    "fs-styles": "git+https://github.com/fs-webdev/fs-styles#fontStack"
   },
   "resolutions": {
     "polymer": "~1.2.0",
-    "iron-ajax": "^1.2.0"
+    "iron-ajax": "^1.2.0",
+    "fs-styles": "fontStack"
   }
 }
