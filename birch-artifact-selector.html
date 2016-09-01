@@ -100,7 +100,7 @@ Example:
       albums='{{_albums}}'
       loading='{{loading}}'></birch-artifact-selector-data>
     <wc-i18n-src locale='[[lang]]' domain='birch-artifact-selector' locale-dir='[[localeDir()]]' locale-strings='{{_i18n}}'></wc-i18n-src>
-    <cedar-dialog id='modal' full-width on-iron-overlay-closed='_resetSelector' on-iron-overlay-opened='_handleCategoryAdjust'>
+    <cedar-dialog id='modal' full-width on-iron-overlay-closed='_cancelSelector' on-iron-overlay-opened='_handleCategoryAdjust'>
       <h4 header>[[selectorTitle]]</h4>
       <div class='wrap layout horizontal justified'>
         <paper-drawer-panel id='drawer' responsive-width='979px' drawer-width='200px' edge-swipe-sensitivity='50'>
@@ -204,7 +204,7 @@ Example:
         _open: {
           type: Boolean,
           value: false
-        },
+        }
       },
       /**
        * The attached -> async pattern here is documented at
@@ -251,6 +251,12 @@ Example:
         this.$.grid.deselectAll();
         this._view = 'my-memories';
         this._open = false;
+      },
+      _cancelSelector: function(e) {
+        this._resetSelector();
+        if (e && e.detail && !e.detail.confirmed) {
+          this.fire('birch-artifact-selector-attach-cancel');
+        }
       },
       _notifyAttach: function() {
         this.fire('birch-artifact-selector-attach-selected', {
